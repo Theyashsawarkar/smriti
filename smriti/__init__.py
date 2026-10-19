@@ -62,7 +62,7 @@ class Plugin(Base):
     preview = True
     preview_width = 320
     width = 760
-    hints = [Hint("↵", "copy"), Hint("⌃↵", "paste"), Hint("⌃P", "pin"), Hint("Del", "delete")]
+    hints = [Hint("Enter", "copy"), Hint("Ctrl+Enter", "paste"), Hint("Ctrl+P", "pin"), Hint("Del", "delete")]
     empty_text = "The clipboard history is empty"
 
     def __init__(self, vyom, conf):

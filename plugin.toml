@@ -1,7 +1,7 @@
 name = "smriti"
 title = "Clipboard"
 description = "Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete."
-version = "0.1.0"
+version = "0.1.1"
 vyom = "0.2"
 icon = "󰅌"
 color = "teal"
