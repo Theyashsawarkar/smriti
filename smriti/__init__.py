@@ -61,7 +61,6 @@ class Plugin(Base):
     placeholder = "Search the clipboard…"
     preview = True
     preview_width = 320
-    width = 760
     hints = [Hint("Enter", "copy"), Hint("Ctrl+Enter", "paste"), Hint("Ctrl+P", "pin"), Hint("Del", "delete")]
     empty_text = "The clipboard history is empty"
 
