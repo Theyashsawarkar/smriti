@@ -1,0 +1,8 @@
+# The project website (docs/, GitHub Pages): built by scripts/build-site.py
+name = "smriti"
+sanskrit = "स्मृति"
+meaning = "memory"
+tagline = "Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete."
+color = "teal"
+kind = "a Vyom tool"
+logo = "assets/logo.svg"
