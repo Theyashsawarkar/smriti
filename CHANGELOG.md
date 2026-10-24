@@ -2,6 +2,11 @@
 
 Newest first. Releases are tags (`vX.Y.Z`).
 
+## v0.2.0 -- 2026-10-24
+
+- The filter tabs switch like every Vyom tool's tabs (Vyom 0.3.0): `Ctrl+H` / `Ctrl+L`
+  for the previous / next, `Ctrl+1..5` by number as before. Needs Vyom 0.3.0.
+
 ## v0.1.4 -- 2026-10-21
 
 - A website (GitHub Pages, https://theyashsawarkar.github.io/smriti/): the README as a home page, the

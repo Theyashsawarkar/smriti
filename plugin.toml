@@ -1,8 +1,8 @@
 name = "smriti"
 title = "Clipboard"
 description = "Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete."
-version = "0.1.4"
-vyom = "0.2.5"
+version = "0.2.0"
+vyom = "0.3.0"
 icon = "󰅌"
 color = "teal"
 requires = ["cliphist", "wl-copy"]

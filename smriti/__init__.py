@@ -8,8 +8,6 @@ import os
 import re
 import subprocess
 
-from gi.repository import Gtk
-
 from vyom import Hint, Row, Section, ui, util
 from vyom import Plugin as Base
 
@@ -17,7 +15,6 @@ from vyom import Plugin as Base
 # keybind: Vyom/clipboard | Ctrl+Enter | Copy and paste the selected entry
 # keybind: Vyom/clipboard | Ctrl+P | Pin or unpin the selected entry
 # keybind: Vyom/clipboard | Delete / Ctrl+Backspace | Delete the selected entry from the history
-# keybind: Vyom/clipboard | Ctrl+1..5 | Show all, text, images, links or code
 
 PINS = "smriti-pins"
 IMG = re.compile(r"^\[\[ binary data ([\d.]+ \w+) (\w+) (\d+x\d+) \]\]$")
@@ -63,32 +60,11 @@ class Plugin(Base):
     preview_width = 320
     hints = [Hint("Enter", "copy"), Hint("Ctrl+Enter", "paste"), Hint("Ctrl+P", "pin"), Hint("Del", "delete")]
     empty_text = "The clipboard history is empty"
+    tabs = TABS              # Ctrl+H/L, Ctrl+1..5 (Vyom)
 
     def __init__(self, vyom, conf):
         super().__init__(vyom, conf)
         self.tab = "all"
-        self.tab_buttons = {}
-
-    def header_extra(self):
-        box = Gtk.Box(spacing=4)
-        group = None
-        for key, label in TABS:
-            b = Gtk.ToggleButton(label=label)
-            b.add_css_class("tab")
-            if group is None:
-                group = b
-                b.set_active(True)
-            else:
-                b.set_group(group)
-            b.connect("toggled", lambda btn, k=key: btn.get_active() and self.set_tab(k))
-            b.set_can_focus(False)
-            self.tab_buttons[key] = b
-            box.append(b)
-        return box
-
-    def set_tab(self, key):
-        self.tab = key
-        self.refresh()
 
     def search(self, q):
         code, out = util.run(["cliphist", "list"], timeout=5)
@@ -221,9 +197,5 @@ class Plugin(Base):
             return True
         if name == "Delete" or (name == "BackSpace" and "ctrl" in mods):
             self.unpin(row.data["pin"]["text"]) if "pin" in row.data else self.delete(row.data)
-            return True
-        if "ctrl" in mods and name in "12345" and len(name) == 1:
-            key = TABS[int(name) - 1][0]
-            self.tab_buttons[key].set_active(True)
             return True
         return False

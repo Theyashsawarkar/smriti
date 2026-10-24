@@ -15,7 +15,7 @@
   <a href="https://github.com/Theyashsawarkar/smriti/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Theyashsawarkar/smriti/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://github.com/Theyashsawarkar/smriti/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Theyashsawarkar/smriti?color=cba6f7&label=release"></a>
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-f5e0dc"></a>
-  <a href="https://github.com/Theyashsawarkar/vyom"><img alt="Vyom 0.2.5+" src="https://img.shields.io/badge/vyom-0.2.5%2B-89b4fa"></a>
+  <a href="https://github.com/Theyashsawarkar/vyom"><img alt="Vyom 0.3+" src="https://img.shields.io/badge/vyom-0.3%2B-89b4fa"></a>
   <img alt="Python 3.11+" src="https://img.shields.io/badge/python-3.11%2B-a6e3a1">
   <img alt="Wayland" src="https://img.shields.io/badge/wayland-layer--shell-94e2d5">
 </p>
@@ -49,7 +49,7 @@ smriti is clipboard history for [Vyom](https://github.com/Theyashsawarkar/vyom):
 
 ### Requirements
 
-- [Vyom](https://github.com/Theyashsawarkar/vyom) 0.2.5 or newer (Python 3.11+, PyGObject, GTK 4, [gtk4-layer-shell](https://github.com/wmww/gtk4-layer-shell), a Nerd Font)
+- [Vyom](https://github.com/Theyashsawarkar/vyom) 0.3 or newer (Python 3.11+, PyGObject, GTK 4, [gtk4-layer-shell](https://github.com/wmww/gtk4-layer-shell), a Nerd Font)
 - `cliphist`, `wl-copy`
 - optional: wtype (Ctrl+Enter paste)
 
@@ -84,10 +84,9 @@ Open it with `vyom smriti` (or your key). Type to search; the footer always show
 | `Ctrl+Enter` | Copy and paste the selected entry |
 | `Ctrl+P` | Pin or unpin the selected entry |
 | `Delete / Ctrl+Backspace` | Delete the selected entry from the history |
-| `Ctrl+1..5` | Show all, text, images, links or code |
 | `Esc` | Close the panel |
 
-Every Vyom panel also has `Up`/`Down` (or `Ctrl+K`/`Ctrl+J`) to move, `Page Up`/`Page Down` to jump and `Tab` to switch to the next tool.
+Every Vyom panel also has `Up`/`Down` (or `Ctrl+K`/`Ctrl+J`) to move, `Page Up`/`Page Down` to jump `Tab` to switch to the next tool, and `Ctrl+H`/`Ctrl+L` (or `Ctrl+1..9`) to switch tabs.
 
 ## Troubleshooting
 
