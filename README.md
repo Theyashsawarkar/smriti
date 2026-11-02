@@ -22,6 +22,11 @@
 
 <!-- No screenshot: clipboard shows personal data (your own clipboard). -->
 
+<p align="center">
+  <img alt="smriti: the clipboard history with links, text, commands, code and an image told apart, and the picked link's preview with Copy, Pin and Delete" src="assets/screenshots/smriti.png" width="100%">
+</p>
+<p align="center"><sub>Screenshots use made-up demo data.</sub></p>
+
 > *Smriti* (स्मृति) is Sanskrit for "memory": everything you copied, remembered.
 
 smriti is clipboard history for [Vyom](https://github.com/Theyashsawarkar/vyom): one keyboard-driven panel that opens instantly, with live data, a preview and a key for everything. It runs on any compositor with the layer-shell protocol (sway, Hyprland, river, niri, Wayfire, labwc…). In [Vayu](https://github.com/Theyashsawarkar/vayu), the desktop it was built for, it replaces `cliphist list | wofi --dmenu`.
