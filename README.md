@@ -6,6 +6,15 @@
   </picture>
 </p>
 
+<!-- identity -->
+<p align="center">
+  <b>नष्टो मोहः स्मृतिर्लब्धा त्वत्प्रसादान्मयाच्युत ।<br>
+  स्थितोऽस्मि गतसन्देहः करिष्ये वचनं तव ॥</b><br>
+  <i>Confusion is gone and memory regained; I stand free of doubt.</i><br>
+  <sub>Bhagavad Gītā 18.73</sub>
+</p>
+<!-- /identity -->
+
 <p align="center">
   <b>Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete.</b><br>
   Clipboard history. A tool for <a href="https://github.com/Theyashsawarkar/vyom">Vyom</a>, keyboard-driven panels for Wayland.

@@ -6,3 +6,6 @@ tagline = "Clipboard history (cliphist): links, images, code and commands told a
 color = "teal"
 kind = "a Vyom tool"
 logo = "assets/logo.svg"
+shloka = "नष्टो मोहः स्मृतिर्लब्धा त्वत्प्रसादान्मयाच्युत ।\nस्थितोऽस्मि गतसन्देहः करिष्ये वचनं तव ॥"
+shloka_meaning = "Confusion is gone and memory regained; I stand free of doubt."
+shloka_source = "Bhagavad Gītā 18.73"
