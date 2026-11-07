@@ -2,8 +2,22 @@
 
 Newest first. Releases are tags (`vX.Y.Z`).
 
-## Unreleased
+## v0.3.0 -- 2026-11-07
 
+- **Grouped by time**: Pinned, Just now, Today, Yesterday and Older instead of a bare entry number, with
+  an age on every row ("1 min", "11:20"). cliphist keeps no times, so smriti notes them while Vyom runs
+  by watching the clipboard (`wl-paste --watch`; `track_times = false` turns it off). See docs/adr/0004.
+- **Each kind has its own colour and icon**: link blue, code green, command peach, image mauve, text
+  teal; the tabs use the same colours.
+- **Images show as thumbnails** in the list, links show their site, code and commands are in a
+  monospace font, and text says how many words it has.
+- The preview colours code (keywords, strings, numbers, calls, comments), guesses its language, and
+  says how long ago you copied it. Its buttons are Copy (`Enter`), Paste (`Ctrl+Enter`), Pin (`Ctrl+P`)
+  and a red Delete (`Delete`).
+- **Delete asks first**: it can't be undone, so the first `Delete` asks and the second (within 4 s)
+  deletes. `Ctrl+Backspace` no longer deletes.
+- `Ctrl+Enter` on a pinned entry pastes it too.
+- Needs Vyom 0.6.0.
 - Every corner is rounded: the website's callouts.
 - A logo and a shloka at the top of the README and the website: every Vayu tool has them now.
 - Screenshots in the README and on the website.

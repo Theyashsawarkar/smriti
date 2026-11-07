@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>smriti · Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete.</title>
-<meta name="description" content="Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete.">
-<meta property="og:title" content="smriti · Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete.">
-<meta property="og:description" content="Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete.">
+<title>smriti · Clipboard history (cliphist): grouped by time, links, images, code and commands told apart by colour, thumbnails, a full preview, pins.</title>
+<meta name="description" content="Clipboard history (cliphist): grouped by time, links, images, code and commands told apart by colour, thumbnails, a full preview, pins.">
+<meta property="og:title" content="smriti · Clipboard history (cliphist): grouped by time, links, images, code and commands told apart by colour, thumbnails, a full preview, pins.">
+<meta property="og:description" content="Clipboard history (cliphist): grouped by time, links, images, code and commands told apart by colour, thumbnails, a full preview, pins.">
 <meta name="theme-color" content="#11111b">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,25 +22,25 @@
 <div class="eyebrow">a Vyom tool</div>
 <h1>smriti</h1>
 <div class="sa">स्मृति <span>· “memory”</span></div>
-<p class="lead">Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete.</p>
+<p class="lead">Clipboard history (cliphist): grouped by time, links, images, code and commands told apart by colour, thumbnails, a full preview, pins.</p>
 <figure class="shloka"><p lang="sa">नष्टो मोहः स्मृतिर्लब्धा त्वत्प्रसादान्मयाच्युत ।<br>स्थितोऽस्मि गतसन्देहः करिष्ये वचनं तव ॥</p><figcaption>Confusion is gone and memory regained; I stand free of doubt. <cite>Bhagavad Gītā 18.73</cite></figcaption></figure>
 <div class="cta"><a class="btn primary" href="#install">Install</a><a class="btn" href="https://github.com/Theyashsawarkar/smriti">GitHub ↗</a>
-<a class="btn" href="changelog.html">What's new in v0.2.0</a></div>
-<div class="meta"><span><b>v0.2.0</b> latest</span><span><b>6</b> releases</span><span><b>3</b> decisions recorded</span><span><b>MIT</b> license</span></div>
+<a class="btn" href="changelog.html">What's new in v0.3.0</a></div>
+<div class="meta"><span><b>v0.3.0</b> latest</span><span><b>7</b> releases</span><span><b>4</b> decisions recorded</span><span><b>MIT</b> license</span></div>
 </div><img class="logo" src="assets/logo.svg" alt="smriti logo"></div></section>
-<div class="wrap"><aside class="toc"><b>On this page</b><a class="l2" href="#features">Features</a><a class="l2" href="#install">Install</a><a class="l3" href="#requirements">Requirements</a><a class="l3" href="#install">Install</a><a class="l3" href="#update-and-uninstall">Update and uninstall</a><a class="l2" href="#usage">Usage</a><a class="l2" href="#troubleshooting">Troubleshooting</a><a class="l2" href="#the-vyom-family">The Vyom family</a><a class="l2" href="#contributing">Contributing</a><a class="l2" href="#license">License</a></aside><article>
+<div class="wrap"><aside class="toc"><b>On this page</b><a class="l2" href="#features">Features</a><a class="l2" href="#install">Install</a><a class="l3" href="#requirements">Requirements</a><a class="l3" href="#install">Install</a><a class="l3" href="#update-and-uninstall">Update and uninstall</a><a class="l2" href="#usage">Usage</a><a class="l2" href="#configuration">Configuration</a><a class="l2" href="#troubleshooting">Troubleshooting</a><a class="l2" href="#the-vyom-family">The Vyom family</a><a class="l2" href="#contributing">Contributing</a><a class="l2" href="#license">License</a></aside><article>
 <!-- No screenshot: clipboard shows personal data (your own clipboard). -->
 <p align="center">
-  <img alt="smriti: the clipboard history with links, text, commands, code and an image told apart, and the picked link's preview with Copy, Pin and Delete" src="assets/screenshots/smriti.png" width="100%">
+  <img alt="smriti: the clipboard history grouped into Pinned, Just now and Today, each kind in its own colour with an image thumbnail, and the picked code with syntax colours and Copy, Paste, Pin and a red Delete" src="assets/screenshots/smriti.png" width="100%">
 </p>
 <p align="center"><sub>Screenshots use made-up demo data.</sub></p>
 <blockquote><p><em>Smriti</em> (स्मृति) is Sanskrit for "memory": everything you copied, remembered.</p></blockquote>
 <p>smriti is clipboard history for <a href="https://github.com/Theyashsawarkar/vyom">Vyom</a>: one keyboard-driven panel that opens instantly, with live data, a preview and a key for everything. It runs on any compositor with the layer-shell protocol (sway, Hyprland, river, niri, Wayfire, labwc…). In <a href="https://github.com/Theyashsawarkar/vayu">Vayu</a>, the desktop it was built for, it replaces <code>cliphist list | wofi --dmenu</code>.</p>
 <h2 id="features"><a class="anchor" href="#features">#</a>Features</h2>
-<ul><li>Your cliphist history, each entry recognised as a <strong>link, image, code, command, email or text</strong>, with a filter tab for each.</li><li>A full preview: the whole text (not cliphist's cut-off line), link domains, and <strong>images as pictures</strong>.</li><li><code>Enter</code> copies; <code>Ctrl+Enter</code> copies and pastes into the window you were in.</li><li><strong>Pin</strong> what you reuse (<code>Ctrl+P</code>); delete what shouldn't be kept (<code>Delete</code>).</li><li>Keyboard first: every action has a key, shown in the footer; the mouse works too.</li><li>Never freezes the panel: slow commands run in the background.</li></ul>
+<ul><li>Your cliphist history <strong>grouped by when you copied it</strong>: Pinned, Just now, Today, Yesterday, Older, with an age on every row.</li><li>Each entry recognised as a <strong>link, image, code, command, email or text</strong>, each with its own colour and icon (link blue, code green, command peach, image mauve, text teal), and a filter tab for each in the same colour.</li><li><strong>Images as thumbnails</strong> right in the list, links with their site, code and commands in a monospace font.</li><li>A full preview: the whole text (not cliphist's cut-off line), <strong>code with syntax colours</strong>, how long ago you copied it.</li><li><code>Enter</code> copies; <code>Ctrl+Enter</code> copies and pastes into the window you were in.</li><li><strong>Pin</strong> what you reuse (<code>Ctrl+P</code>); delete what shouldn't be kept (<code>Delete</code>, pressed twice: it can't be undone).</li><li>cliphist keeps no times, so smriti notes them while Vyom runs (it watches the clipboard with <code>wl-paste --watch</code>); entries from before that are under Older.</li><li>Keyboard first: every action has a key, shown in the footer; the mouse works too.</li><li>Never freezes the panel: slow commands run in the background.</li></ul>
 <h2 id="install"><a class="anchor" href="#install">#</a>Install</h2>
 <h3 id="requirements"><a class="anchor" href="#requirements">#</a>Requirements</h3>
-<ul><li><a href="https://github.com/Theyashsawarkar/vyom">Vyom</a> 0.3 or newer (Python 3.11+, PyGObject, GTK 4, <a href="https://github.com/wmww/gtk4-layer-shell">gtk4-layer-shell</a>, a Nerd Font)</li><li><code>cliphist</code>, <code>wl-copy</code></li><li>optional: wtype (Ctrl+Enter paste)</li></ul>
+<ul><li><a href="https://github.com/Theyashsawarkar/vyom">Vyom</a> 0.6.0 or newer (Python 3.11+, PyGObject, GTK 4, <a href="https://github.com/wmww/gtk4-layer-shell">gtk4-layer-shell</a>, a Nerd Font)</li><li><code>cliphist</code>, <code>wl-copy</code> (and <code>wl-paste</code>, to note when you copied each entry)</li><li>optional: wtype (Ctrl+Enter paste)</li></ul>
 <h3 id="install"><a class="anchor" href="#install">#</a>Install</h3>
 <pre class="code" data-lang="sh"><code>git clone https://github.com/Theyashsawarkar/smriti ~/.local/share/vyom/plugins/smriti
 vyom reload           # pick it up (or log out and in)
@@ -52,8 +52,12 @@ vyom smriti            # open it; run it again to close</code></pre>
 rm -rf ~/.local/share/vyom/plugins/smriti &amp;&amp; vyom reload          # uninstall</code></pre>
 <h2 id="usage"><a class="anchor" href="#usage">#</a>Usage</h2>
 <p>Open it with <code>vyom smriti</code> (or your key). Type to search; the footer always shows the keys for what's selected.</p>
-<div class="table"><table><thead><tr><th>Key</th><th>Action</th></tr></thead><tbody><tr><td><code>Enter</code></td><td>Copy the selected entry</td></tr><tr><td><code>Ctrl+Enter</code></td><td>Copy and paste the selected entry</td></tr><tr><td><code>Ctrl+P</code></td><td>Pin or unpin the selected entry</td></tr><tr><td><code>Delete / Ctrl+Backspace</code></td><td>Delete the selected entry from the history</td></tr><tr><td><code>Esc</code></td><td>Close the panel</td></tr></tbody></table></div>
+<div class="table"><table><thead><tr><th>Key</th><th>Action</th></tr></thead><tbody><tr><td><code>Enter</code></td><td>Copy the selected entry</td></tr><tr><td><code>Ctrl+Enter</code></td><td>Paste the selected entry (copies it, then pastes into your window)</td></tr><tr><td><code>Ctrl+P</code></td><td>Pin or unpin the selected entry</td></tr><tr><td><code>Delete</code></td><td>Delete the selected entry from the history (press twice: it can't be undone)</td></tr><tr><td><code>Esc</code></td><td>Close the panel</td></tr></tbody></table></div>
 <p>Every Vyom panel also has <code>Up</code>/<code>Down</code> (or <code>Ctrl+K</code>/<code>Ctrl+J</code>) to move and <code>Page Up</code>/<code>Page Down</code> to jump; its tabs, its main kinds, switch with <code>Tab</code>/<code>Shift+Tab</code> (or <code>Ctrl+H</code>/<code>Ctrl+L</code>), or <code>Ctrl</code> with the number shown on a tab.</p>
+<h2 id="configuration"><a class="anchor" href="#configuration">#</a>Configuration</h2>
+<p>Everything is optional, in <code>~/.config/vyom/config.toml</code> under <code>[plugin.smriti]</code>:</p>
+<div class="table"><table><thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead><tbody><tr><td><code>track_times</code></td><td>true</td><td>Watch the clipboard to note when each entry was copied (<code>false</code>: no watcher; entries get the time smriti first listed them)</td></tr></tbody></table></div>
+<p>Run <code>vyom reload</code> after editing.</p>
 <h2 id="troubleshooting"><a class="anchor" href="#troubleshooting">#</a>Troubleshooting</h2>
 <ul><li><strong>Nothing opens.</strong> <code>vyom list</code> shows every installed tool, and why one is skipped (a missing requirement, or a Vyom that's too old).</li><li><strong>It opened, then something failed.</strong> Look for a <code>Traceback</code> in the daemon's log, <code>journalctl --user -u vyom -u vyom-daemon -b</code> (without systemd: <code>~/.local/state/vyom/daemon.log</code>), and <a href="https://github.com/Theyashsawarkar/smriti/issues/new/choose">open an issue</a> with it.</li><li><strong>No blur or rounded corners.</strong> That's the compositor: on SwayFX, add <code>layer_effects &quot;vyom&quot; { blur enable; corner_radius 20; shadows enable }</code>.</li></ul>
 <h2 id="the-vyom-family"><a class="anchor" href="#the-vyom-family">#</a>The Vyom family</h2>

@@ -1,0 +1,8 @@
+/* smriti: each kind's colour on its tab too (All, Text, Images, Links, Code),
+   and image thumbnails wider than an icon tile. */
+.plugin-smriti .tabs button.tab:nth-child(2) { color: @teal; }
+.plugin-smriti .tabs button.tab:nth-child(3) { color: @mauve; }
+.plugin-smriti .tabs button.tab:nth-child(4) { color: @blue; }
+.plugin-smriti .tabs button.tab:nth-child(5) { color: @green; }
+.plugin-smriti .tabs button.tab:checked { color: @text; }
+.plugin-smriti .tile > picture { min-width: 52px; min-height: 36px; border-radius: 10px; }

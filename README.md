@@ -16,7 +16,7 @@
 <!-- /identity -->
 
 <p align="center">
-  <b>Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete.</b><br>
+  <b>Clipboard history (cliphist): grouped by time, links, images, code and commands told apart by colour, thumbnails, a full preview, pins.</b><br>
   Clipboard history. A tool for <a href="https://github.com/Theyashsawarkar/vyom">Vyom</a>, keyboard-driven panels for Wayland.
 </p>
 
@@ -24,7 +24,7 @@
   <a href="https://github.com/Theyashsawarkar/smriti/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Theyashsawarkar/smriti/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://github.com/Theyashsawarkar/smriti/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Theyashsawarkar/smriti?color=cba6f7&label=release"></a>
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-f5e0dc"></a>
-  <a href="https://github.com/Theyashsawarkar/vyom"><img alt="Vyom 0.3+" src="https://img.shields.io/badge/vyom-0.3%2B-89b4fa"></a>
+  <a href="https://github.com/Theyashsawarkar/vyom"><img alt="Vyom 0.6.0+" src="https://img.shields.io/badge/vyom-0.6.0%2B-89b4fa"></a>
   <img alt="Python 3.11+" src="https://img.shields.io/badge/python-3.11%2B-a6e3a1">
   <img alt="Wayland" src="https://img.shields.io/badge/wayland-layer--shell-94e2d5">
 </p>
@@ -32,7 +32,7 @@
 <!-- No screenshot: clipboard shows personal data (your own clipboard). -->
 
 <p align="center">
-  <img alt="smriti: the clipboard history with links, text, commands, code and an image told apart, and the picked link's preview with Copy, Pin and Delete" src="assets/screenshots/smriti.png" width="100%">
+  <img alt="smriti: the clipboard history grouped into Pinned, Just now and Today, each kind in its own colour with an image thumbnail, and the picked code with syntax colours and Copy, Paste, Pin and a red Delete" src="assets/screenshots/smriti.png" width="100%">
 </p>
 <p align="center"><sub>Screenshots use made-up demo data.</sub></p>
 
@@ -45,6 +45,7 @@ smriti is clipboard history for [Vyom](https://github.com/Theyashsawarkar/vyom):
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
+- [Configuration](#configuration)
 - [Troubleshooting](#troubleshooting)
 - [The Vyom family](#the-vyom-family)
 - [Contributing](#contributing)
@@ -52,10 +53,13 @@ smriti is clipboard history for [Vyom](https://github.com/Theyashsawarkar/vyom):
 
 ## Features
 
-- Your cliphist history, each entry recognised as a **link, image, code, command, email or text**, with a filter tab for each.
-- A full preview: the whole text (not cliphist's cut-off line), link domains, and **images as pictures**.
+- Your cliphist history **grouped by when you copied it**: Pinned, Just now, Today, Yesterday, Older, with an age on every row.
+- Each entry recognised as a **link, image, code, command, email or text**, each with its own colour and icon (link blue, code green, command peach, image mauve, text teal), and a filter tab for each in the same colour.
+- **Images as thumbnails** right in the list, links with their site, code and commands in a monospace font.
+- A full preview: the whole text (not cliphist's cut-off line), **code with syntax colours**, how long ago you copied it.
 - `Enter` copies; `Ctrl+Enter` copies and pastes into the window you were in.
-- **Pin** what you reuse (`Ctrl+P`); delete what shouldn't be kept (`Delete`).
+- **Pin** what you reuse (`Ctrl+P`); delete what shouldn't be kept (`Delete`, pressed twice: it can't be undone).
+- cliphist keeps no times, so smriti notes them while Vyom runs (it watches the clipboard with `wl-paste --watch`); entries from before that are under Older.
 - Keyboard first: every action has a key, shown in the footer; the mouse works too.
 - Never freezes the panel: slow commands run in the background.
 
@@ -63,8 +67,8 @@ smriti is clipboard history for [Vyom](https://github.com/Theyashsawarkar/vyom):
 
 ### Requirements
 
-- [Vyom](https://github.com/Theyashsawarkar/vyom) 0.3 or newer (Python 3.11+, PyGObject, GTK 4, [gtk4-layer-shell](https://github.com/wmww/gtk4-layer-shell), a Nerd Font)
-- `cliphist`, `wl-copy`
+- [Vyom](https://github.com/Theyashsawarkar/vyom) 0.6.0 or newer (Python 3.11+, PyGObject, GTK 4, [gtk4-layer-shell](https://github.com/wmww/gtk4-layer-shell), a Nerd Font)
+- `cliphist`, `wl-copy` (and `wl-paste`, to note when you copied each entry)
 - optional: wtype (Ctrl+Enter paste)
 
 ### Install
@@ -95,12 +99,22 @@ Open it with `vyom smriti` (or your key). Type to search; the footer always show
 | Key | Action |
 |---|---|
 | `Enter` | Copy the selected entry |
-| `Ctrl+Enter` | Copy and paste the selected entry |
+| `Ctrl+Enter` | Paste the selected entry (copies it, then pastes into your window) |
 | `Ctrl+P` | Pin or unpin the selected entry |
-| `Delete / Ctrl+Backspace` | Delete the selected entry from the history |
+| `Delete` | Delete the selected entry from the history (press twice: it can't be undone) |
 | `Esc` | Close the panel |
 
 Every Vyom panel also has `Up`/`Down` (or `Ctrl+K`/`Ctrl+J`) to move and `Page Up`/`Page Down` to jump; its tabs, its main kinds, switch with `Tab`/`Shift+Tab` (or `Ctrl+H`/`Ctrl+L`), or `Ctrl` with the number shown on a tab.
+
+## Configuration
+
+Everything is optional, in `~/.config/vyom/config.toml` under `[plugin.smriti]`:
+
+| Setting | Default | What it does |
+|---|---|---|
+| `track_times` | true | Watch the clipboard to note when each entry was copied (`false`: no watcher; entries get the time smriti first listed them) |
+
+Run `vyom reload` after editing.
 
 ## Troubleshooting
 

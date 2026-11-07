@@ -2,7 +2,7 @@
 name = "smriti"
 sanskrit = "स्मृति"
 meaning = "memory"
-tagline = "Clipboard history (cliphist): links, images, code and commands told apart, a full preview, pins, delete."
+tagline = "Clipboard history (cliphist): grouped by time, links, images, code and commands told apart by colour, thumbnails, a full preview, pins."
 color = "teal"
 kind = "a Vyom tool"
 logo = "assets/logo.svg"
