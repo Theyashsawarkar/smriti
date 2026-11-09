@@ -2,6 +2,15 @@
 
 Newest first. Releases are tags (`vX.Y.Z`).
 
+## v0.4.0 -- 2026-11-09
+
+- `Space u p` (show or hide the preview) now comes from Vyom core, which also remembers it per tool; the tool's own copy is gone.
+- **Vim keys** (Vyom 0.7, ADR 0008): NORMAL and INSERT modes, `Space` as the leader with a which-key strip, `?` and `Space ?` list every key, `Space Space` is a palette, counts (`5j`), `gg` / `G`, `H` / `L` for tabs. It opens in INSERT (search-first): type, then `Esc` for NORMAL. Needs Vyom 0.7.0.
+- Its keys are data (`smriti/vim.py`); `scripts/keybinds.py` writes the `# keybind:` lines and the README's key tables from them, and `--check` (CI) fails when they drift.
+- `p` pastes, `y y` copies and stays open, `m` pins, `d d` deletes (asks first, `y` deletes; it replaces pressing Delete twice), `Space d a` clears the history (pins stay), `Space o b` opens a link, `Space o e` opens an entry in $EDITOR, `Space y p` copies it trimmed, `Space u p` hides the preview.
+- While typing, `Delete` and `Ctrl+C` belong to the search box again.
+- The delete question names the entry (`Delete this link (https://…) …?`), so `y` never deletes one you didn't mean.
+
 ## v0.3.0 -- 2026-11-07
 
 - **Grouped by time**: Pinned, Just now, Today, Yesterday and Older instead of a bare entry number, with

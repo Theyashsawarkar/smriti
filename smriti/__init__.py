@@ -27,10 +27,25 @@ from gi.repository import GdkPixbuf, GLib, Gtk, Pango
 from vyom import Hint, Row, Section, ui, util
 from vyom import Plugin as Base
 
-# keybind: Vyom/clipboard | Enter | Copy the selected entry
-# keybind: Vyom/clipboard | Ctrl+Enter | Paste the selected entry (copies it, then pastes into your window)
-# keybind: Vyom/clipboard | Ctrl+P | Toggle the selected entry's pin
-# keybind: Vyom/clipboard | Delete | Delete the selected entry from the history (press twice: it can't be undone)
+from . import vim
+
+# KEYBINDS (generated from smriti/vim.py by scripts/keybinds.py; don't edit by hand)
+# keybind: Vyom/smriti:insert | Enter | Copy the selected entry
+# keybind: Vyom/smriti:insert | Ctrl+Enter | Paste the selected entry (copies it, then pastes into your window)
+# keybind: Vyom/smriti:normal | Enter | Copy the selected entry and close
+# keybind: Vyom/smriti:normal | p | Paste the selected entry into your window
+# keybind: Vyom/smriti:normal | y y | Copy the selected entry and stay open
+# keybind: Vyom/smriti:normal | m | Pin or unpin the selected entry
+# keybind: Vyom/smriti:normal | d d | Delete the selected entry (a pinned one: unpin it; asks first)
+# keybind: Vyom/smriti | Ctrl+P | Pin or unpin the selected entry
+# keybind: Vyom/smriti leader:normal | Space y y | Copy the selected entry and stay open
+# keybind: Vyom/smriti leader:normal | Space y p | Copy the selected entry's text, trimmed
+# keybind: Vyom/smriti leader:normal | Space m p | Pin or unpin the selected entry
+# keybind: Vyom/smriti leader:normal | Space d d | Delete the selected entry (asks first)
+# keybind: Vyom/smriti leader:normal | Space d a | Clear the whole history; pins stay (asks first)
+# keybind: Vyom/smriti leader:normal | Space o b | Open the selected link in the browser
+# keybind: Vyom/smriti leader:normal | Space o e | Open the selected entry in $EDITOR
+# END KEYBINDS
 
 PINS = "smriti-pins"
 TIMES = "smriti-times"
@@ -239,14 +254,17 @@ class Plugin(Base):
     placeholder = "Search the clipboard…"
     preview = True
     preview_width = 340
-    hints = [Hint("Enter", "copy"), Hint("Ctrl+Enter", "paste"), Hint("Ctrl+P", "pin"), Hint("Del", "delete")]
+    hints = [Hint("Enter", "copy"), Hint("p", "paste"), Hint("m", "pin"), Hint("d d", "delete")]
+    insert_hints = [Hint("Enter", "copy"), Hint("Ctrl+Enter", "paste"), Hint("Esc", "normal mode")]
+    modal = True                 # Vyom's vim keys (ADR 0008); smriti/vim.py
+    start_mode = "insert"        # search-first
+    key_groups = vim.GROUPS
     empty_text = "The clipboard history is empty"
     tabs = TABS              # Ctrl+H/L, Ctrl+1..5 (Vyom)
 
     def __init__(self, vyom, conf):
         super().__init__(vyom, conf)
         self.tab = "all"
-        self.armed = None            # (entry id, time): Delete pressed once
         self.times_lock = threading.Lock()
         self.watcher = None
         load_palette()
@@ -343,7 +361,7 @@ class Plugin(Base):
         if pins and not q:
             got = [p for p in pins if self.tab == "all" or self.in_tab(kind_of(p["text"]))]
             if got:
-                rows.append(Section("Pinned", len(got), "Ctrl+P unpins"))
+                rows.append(Section("Pinned", len(got), "m unpins"))
                 rows += [self.pin_row(p) for p in got]
         groups, n, thumbs = {}, 0, 0
         for line, cid, prev, kind in entries:
@@ -438,7 +456,7 @@ class Plugin(Base):
             parts = [head, self.text_view(text, kind), ui.meta(self.size_text(text))]
             parts.append(self.button_rows([("Copy", lambda: (util.copy(text), self.close()), "primary", "", "Enter"),
                                            ("Paste", lambda: self.paste_text(text), "", "", "Ctrl+Enter"),
-                                           ("Unpin", lambda: self.unpin(text), "", "\U000f0403", "Ctrl+P")]))
+                                           ("Unpin", lambda: self.unpin(text), "", "\U000f0403", "m")]))
             return ui.vbox(*parts, spacing=10)
         parts = [ui.hbox(ui.chip(label, color, icon), ui.meta(f"copied {age_long(d['t'])}" if d["t"] else "copied a while ago"), spacing=8)]
         text = ""
@@ -466,13 +484,12 @@ class Plugin(Base):
             parts.append(self.text_view(text, kind))
             parts.append(ui.meta(self.size_text(text)))
         pinned = text and any(p["text"] == text for p in util.load_state(PINS, {"items": []})["items"])
-        armed = self.armed and self.armed[0] == d["id"] and time.time() - self.armed[1] < 4
         specs = [("Copy", lambda: self.copy_entry(d), "primary", "\U000f018f", "Enter"),
                  ("Paste", lambda: self.copy_entry(d, paste=True), "", "\U000f0192", "Ctrl+Enter")]
         if kind != "image":   # a pin keeps text
             specs.append(("Unpin" if pinned else "Pin", lambda: self.unpin(text) if pinned else self.pin(d), "",
-                          "\U000f0403", "Ctrl+P"))
-        specs.append(("Delete?" if armed else "Delete", lambda: self.ask_delete(d), "danger", "\U000f01b4", "Del"))
+                          "\U000f0403", "m"))
+        specs.append(("Delete", lambda: self.ask_delete(d), "danger", "\U000f01b4", "d d"))
         parts.append(self.button_rows(specs))
         return ui.vbox(*parts, spacing=10)
 
@@ -540,24 +557,12 @@ class Plugin(Base):
         self.panel.refresh_now(keep_selection=True)
 
     def ask_delete(self, d):
-        """Delete can't be undone: the first press asks, the second (within
-        4 s) deletes."""
-        if self.armed and self.armed[0] == d["id"] and time.time() - self.armed[1] < 4:
-            self.armed = None
-            self.delete(d)
-            return
-        self.armed = (d["id"], time.time())
-        self.set_status("press Del again to delete it for good")
-        self.panel.update_preview_soon()
-        GLib.timeout_add_seconds(4, self.disarm, d["id"])
-
-    def disarm(self, cid):
-        if self.armed and self.armed[0] == cid and time.time() - self.armed[1] >= 3.9:
-            self.armed = None
-            self.set_status("")
-            if self.panel:
-                self.panel.update_preview_soon()
-        return False
+        """Delete can't be undone: it asks first (y deletes)."""
+        what = KINDS[d["kind"]][2].lower()
+        # Which one, in the question: y must never delete an entry you didn't mean.
+        snip = (d.get("preview") or "").strip().replace("\n", " ")
+        snip = f" ({snip[:40]}{'…' if len(snip) > 40 else ''})" if snip else ""
+        self.confirm(f"Delete this {what}{snip} from the history for good?", lambda: self.delete(d))
 
     def delete(self, d):
         subprocess.run(["cliphist", "delete"], input=d["line"].encode(), timeout=5)
@@ -580,24 +585,100 @@ class Plugin(Base):
         self.copy_entry(d, paste="ctrl" in mods)
         return False
 
+    # ================================================================ keys
+    # The modes, counts and sequences are Vyom's; smriti/vim.py is its keys.
+    def keys(self, tab):
+        return vim.keys(tab)
+
     def key(self, name, row, mods):
-        if row is None:
-            return False
-        if name == "p" and mods == {"ctrl"}:
-            if "pin" in row.data:
-                self.unpin(row.data["pin"]["text"])
-            else:
-                text = row.data.get("full") or ""
-                pinned = text and any(p["text"] == text for p in util.load_state(PINS, {"items": []})["items"])
-                self.unpin(text) if pinned else self.pin(row.data)
-            return True
-        if name in ("Delete", "KP_Delete") and not mods:
-            e = self.panel.entry
-            if e.get_position() < len(e.get_text()):
-                return False   # deleting text in the search box
-            if "pin" in row.data:
-                self.unpin(row.data["pin"]["text"])
-            else:
-                self.ask_delete(row.data)
+        # Ctrl+P in both modes (a chord: it never types)
+        if name == "p" and mods == {"ctrl"} and row is not None:
+            self.toggle_pin(row)
             return True
         return False
+
+    def selected(self):
+        return self.panel.selected_row() if self.panel else None
+
+    def entry_text(self, d):
+        if "pin" in d:
+            return d["pin"]["text"]
+        if d.get("kind") == "image":
+            return ""
+        return d.get("full") or decode(d["line"]).decode("utf-8", "replace")
+
+    def toggle_pin(self, row):
+        if "pin" in row.data:
+            self.unpin(row.data["pin"]["text"])
+            return
+        text = row.data.get("full") or ""
+        pinned = text and any(p["text"] == text for p in util.load_state(PINS, {"items": []})["items"])
+        self.unpin(text) if pinned else self.pin(row.data)
+
+    def v_pin(self, _n, _a):
+        row = self.selected()
+        if row is not None:
+            self.toggle_pin(row)
+
+    def v_paste(self, _n, _a):
+        row = self.selected()
+        if row is not None:
+            self.activate(row, {"ctrl"})
+
+    def v_copy(self, _n, arg):
+        row = self.selected()
+        if row is None:
+            return
+        d = row.data
+        if arg == "plain" or "pin" in d:
+            text = self.entry_text(d)
+            if not text:
+                self.set_status("an image has no text to copy", kind="bad")
+                return
+            util.copy(text.strip() if arg == "plain" else text)
+        else:
+            data = decode(d["line"])
+            if data:
+                subprocess.run(["wl-copy"], input=data, timeout=5)
+        self.set_status("copied", kind="ok")
+
+    def v_delete(self, _n, _a):
+        row = self.selected()
+        if row is None:
+            return
+        if "pin" in row.data:
+            self.unpin(row.data["pin"]["text"])
+        else:
+            self.ask_delete(row.data)
+
+    def v_wipe(self, _n, _a):
+        def wipe():
+            subprocess.run(["cliphist", "wipe"], timeout=10)
+            self.set_status("cleared the history (pins stay)", kind="ok")
+            self.refresh()
+        self.confirm("Clear the whole clipboard history? Pins stay. It can't be undone.", wipe)
+
+    def v_browser(self, _n, _a):
+        row = self.selected()
+        text = self.entry_text(row.data).strip() if row is not None else ""
+        if row is None or row.data.get("kind") != "link" or not text:
+            self.set_status("that isn't a link", kind="bad")
+            return
+        util.spawn(["xdg-open", text])
+        self.close()
+
+    def v_editor(self, _n, _a):
+        row = self.selected()
+        text = self.entry_text(row.data) if row is not None else ""
+        if not text:
+            self.set_status("an image can't open in an editor", kind="bad")
+            return
+        import tempfile
+        fd, path = tempfile.mkstemp(prefix="smriti-", suffix=".txt")
+        with os.fdopen(fd, "w") as f:
+            f.write(text)
+        term = self.conf.get("terminal") or os.environ.get("TERMINAL") or \
+            next((t for t in ("kitty", "foot", "alacritty", "wezterm") if shutil.which(t)), "xterm")
+        editor = os.environ.get("VISUAL") or os.environ.get("EDITOR") or "nano"
+        util.spawn([term, "-e", editor, path])
+        self.close()
