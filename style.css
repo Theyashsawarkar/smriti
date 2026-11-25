@@ -5,4 +5,4 @@
 .plugin-smriti .tabs button.tab:nth-child(4) { color: @blue; }
 .plugin-smriti .tabs button.tab:nth-child(5) { color: @green; }
 .plugin-smriti .tabs button.tab:checked { color: @text; }
-.plugin-smriti .tile > picture { min-width: 52px; min-height: 36px; border-radius: 10px; }
+.plugin-smriti .tile > picture { min-width: 52px; min-height: 36px; border-radius: 12px; }
