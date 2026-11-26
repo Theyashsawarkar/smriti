@@ -32,7 +32,7 @@
 <!-- No screenshot: clipboard shows personal data (your own clipboard). -->
 
 <p align="center">
-  <img alt="smriti: the clipboard history grouped into Pinned, Just now and Today, each kind in its own colour with an image thumbnail, and the picked code with syntax colours and Copy, Paste, Pin and a red Delete" src="assets/screenshots/smriti.png" width="100%">
+  <img alt="smriti: the clipboard history, each kind with its own icon (code, text, a link, a command, an image thumbnail); the picked code with syntax colours and Copy, Paste, Pin and a red Delete" src="assets/screenshots/smriti.webp" width="100%">
 </p>
 <p align="center"><sub>Screenshots use made-up demo data.</sub></p>
 
